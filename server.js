@@ -2,8 +2,12 @@ import express from 'express';
 import enableEndPoints from './endpoints';
 import config from './config';
 import mongoose from 'mongoose';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDoc from './swagger.json';
 
 const app = express();
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+
 mongoose.connect(
   `mongodb://${config.DBServer}:${config.DBServerPort}/geology`,
   { useNewUrlParser: true },
