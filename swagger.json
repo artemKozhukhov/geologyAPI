@@ -1,0 +1,55 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "geology",
+    "version": "1.0.0",
+    "description": "crud api for deposit actions without neuro actions"
+  },
+  "tags": [
+    {
+      "name": "deposit",
+      "description": "get and create deposit"
+    }
+  ],
+  "paths": {
+    "/deposit/{depositId}/": {
+      "get": {
+        "tags": [
+          "deposit"
+        ],
+        "summary": "get deposit by id",
+        "responses": {
+          "200": {
+            "description": "deposit get"
+          }
+        }
+      }
+    },
+    "/deposit": {
+      "post": {
+        "tags": [
+          "deposit"
+        ],
+        "summary": "create new deposit",
+        "responses": {
+          "200": {
+            "description": "deposit created"
+          }
+        }
+      }
+    },
+    "/deposits": {
+      "get": {
+        "tags": [
+          "deposit"
+        ],
+        "summary": "get all deposits",
+        "responses": {
+          "200": {
+            "description": "deposit get"
+          }
+        }
+      }
+    }
+  }
+}
