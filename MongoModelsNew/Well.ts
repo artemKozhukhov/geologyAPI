@@ -1,4 +1,4 @@
 import {model} from "mongoose";
-import WellSchema from "../MongoSchemesNew/Well";
+import WellSchema, {IWellDocument} from "../MongoSchemesNew/Well";
 
-export default model('Well', WellSchema);
+export default model<IWellDocument>('Well', WellSchema);

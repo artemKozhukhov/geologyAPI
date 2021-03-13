@@ -1,4 +1,4 @@
 import {model} from "mongoose";
-import BlockModelSchema from "../MongoSchemesNew/BlockModel";
+import BlockModelSchema, {IBlockModelDocument} from "../MongoSchemesNew/BlockModel";
 
-export default model('BlockModel', BlockModelSchema);
+export default model<IBlockModelDocument>('BlockModel', BlockModelSchema);

@@ -1,4 +1,4 @@
 import {model} from "mongoose";
-import FamousBlockSchema from "../MongoSchemesNew/FamousBlock";
+import FamousBlockSchema, {IFamousBlockDocument} from "../MongoSchemesNew/FamousBlock";
 
-export default model('FamousBlock', FamousBlockSchema);
+export default model<IFamousBlockDocument>('FamousBlock', FamousBlockSchema);

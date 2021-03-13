@@ -1,4 +1,4 @@
 import {model} from "mongoose";
-import UserSchema from "../MongoSchemesNew/User";
+import UserSchema, {IUserDocument} from "../MongoSchemesNew/User";
 
-export default model('User', UserSchema);
+export default model<IUserDocument>('User', UserSchema);

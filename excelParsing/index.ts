@@ -1,38 +1,43 @@
 import * as XLSX from 'xlsx';
 import Deposit from "../MongoModelsNew/Deposit";
-import {IDeposit} from "../MongoSchemesNew/Deposit";
+import {IDeposit, IDepositDocument} from "../MongoSchemesNew/Deposit";
 import {IWell, IWellDocument} from "../MongoSchemesNew/Well";
 import parsers from "./Parsers";
 import separateByField from "../utils/separateByField";
 import {IWorkbookWell, IWorkbookInclinometry, IWorkbookLithology} from "../typings/workbook";
-import {IRock} from "../MongoSchemesNew/Rock";
+import {IRock, IRockDocument} from "../MongoSchemesNew/Rock";
 import getRandomColor from "../utils/getRandomColor";
 import Well from "../MongoModelsNew/Well";
+import {IIntervalDocument} from "../MongoSchemesNew/Interval";
+import Rock from "../MongoModelsNew/Rock";
 
 
 export default async (fileName: string, filePath: string, offset: number) => {
   let workbook = XLSX.readFile(filePath);
 
-  const deposit: IDeposit = {
+  const deposit = new Deposit({
     offset,
-    name: filePath,
-  }
-  const { _id: depositId }  = new Deposit(deposit);
+    name: fileName,
+  });
+
+  const depositId = deposit._id;
 
   const aRockNames = parsers.getUniqueRockNames(workbook);
-  const aRocks: IRock[] = aRockNames.map((rockName, index) => (
-    {
+  const aRocks = aRockNames.map((rockName, index) => {
+    const rock: IRock = {
       deposit: depositId,
       name: rockName,
       index,
       color: getRandomColor(),
-    }
-  ));
+    };
+    return new Rock(rock);
+  });
 
   const aWorkBookWells: IWorkbookWell[] = parsers.getWells(workbook);
   const aWorkBookLithologies: IWorkbookLithology[] = parsers.getLithology(workbook);
   const oWorkBookLithologies = separateByField(aWorkBookLithologies, 'wellName');
   const aWorkBookInclinometries: IWorkbookInclinometry[] = parsers.getInclinometry(workbook);
+  const oWorkBookInclinometries = separateByField(aWorkBookInclinometries, 'wellName');
   const aWells = aWorkBookWells.map((workbookWell) => {
     const well: IWell = {
       deposit: depositId,
@@ -41,16 +46,28 @@ export default async (fileName: string, filePath: string, offset: number) => {
     };
     return new Well(well);
   });
-  aWells.forEach((well: IWellDocument) => {
+  aWells.forEach((well) => {
     well.addLithology(oWorkBookLithologies[well.name], aRocks);
   });
-  console.log(aWells);
+  aWells.forEach((well) => {
+    well.addInclinometry(oWorkBookInclinometries[well.name]);
+  });
 
+  aWells.forEach((well) => {
+    let initPoint = well.head;
+    well.intervals.forEach((interval: IIntervalDocument) => {
+      // TODO разобраться логично ли работает этот метод
+      interval.setCoordinates(initPoint, offset);
+      initPoint = interval.to;
+    });
+    //well.setFoot();
+  });
+  //deposit.setBorders(aWells);
+  console.log(aWells[0].intervals[0]);
 
-  // создать на основе данных из таблицы интервалы в скважинах!
-  // подать скважинам данные по литологии а затем по инклинометрии
-  // скважины сами должны знать что с этом делать
-
-  // объединяем инклинометрию и литологию, затем только подаем это в скважину
+  await deposit.save();
+  await Rock.insertMany(aRocks);
+  await Well.insertMany(aWells);
+  // СОХРАНЕНИЕ
 
 };

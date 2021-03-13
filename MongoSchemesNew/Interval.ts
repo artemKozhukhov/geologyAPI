@@ -4,11 +4,13 @@ import { getRad, roundFloat } from "../utils/mathUtils";
 import {IRock, IRockDocument} from "./Rock";
 
 export interface IInterval {
-  rock?: Types.ObjectId | IRock,
-  from?: IPoint,
-  to?: IPoint,
+  rock: Types.ObjectId | IRock,
   depthFrom: number,
   depthTo: number,
+  from?: IPoint,
+  to?: IPoint,
+  zenit?: number,
+  azimut?: number,
 }
 
 interface IIntervalBaseDocument extends Document, IInterval {
@@ -45,27 +47,27 @@ IntervalSchema.methods.setCoordinates = function (this: IIntervalBaseDocument, s
 };
 
 //получаем координаты любой точки на глубине от startPoint
-// IntervalSchema.methods.getPointCoords = function (this: IIntervalBaseDocument, startPoint: IPoint, depth: number, offset: number) {
-//   // let diff_x =
-//   //   depth * Math.sin(utilFns.getRad(this.zenit - 90)) * Math.sin(utilFns.getRad(360 - this.azimut));
-//   // let diff_y =
-//   //   depth * Math.sin(utilFns.getRad(this.zenit - 90)) * Math.cos(utilFns.getRad(360 - this.azimut));
-//   // let diff_z = depth * Math.cos(utilFns.getRad(this.zenit - 90));
-//   let diff_x =
-//     depth *
-//     Math.sin(getRad(this.zenit + 90)) *
-//     Math.cos(getRad(this.azimut + offset - 90));
-//   let diff_y =
-//     depth *
-//     Math.sin(getRad(this.zenit + 90)) *
-//     Math.sin(getRad(this.azimut + offset + 90));
-//   let diff_z = -depth * Math.cos(getRad(this.zenit + 90));
-//   return {
-//     x: roundFloat(startPoint.x + diff_x),
-//     y: roundFloat(startPoint.y + diff_y),
-//     z: roundFloat(startPoint.z + diff_z),
-//   };
-// };
+IntervalSchema.methods.getPointCoords = function (this: IIntervalBaseDocument, startPoint: IPoint, depth: number, offset: number) {
+  // let diff_x =
+  //   depth * Math.sin(utilFns.getRad(this.zenit - 90)) * Math.sin(utilFns.getRad(360 - this.azimut));
+  // let diff_y =
+  //   depth * Math.sin(utilFns.getRad(this.zenit - 90)) * Math.cos(utilFns.getRad(360 - this.azimut));
+  // let diff_z = depth * Math.cos(utilFns.getRad(this.zenit - 90));
+  let diff_x =
+    depth *
+    Math.sin(getRad(this.zenit + 90)) *
+    Math.cos(getRad(this.azimut + offset - 90));
+  let diff_y =
+    depth *
+    Math.sin(getRad(this.zenit + 90)) *
+    Math.sin(getRad(this.azimut + offset + 90));
+  let diff_z = -depth * Math.cos(getRad(this.zenit + 90));
+  return {
+    x: roundFloat(startPoint.x + diff_x),
+    y: roundFloat(startPoint.y + diff_y),
+    z: roundFloat(startPoint.z + diff_z),
+  };
+};
 
 // IntervalSchema.methods.getFamousBlocks = function (this: IIntervalBaseDocument, depositBorders: {min: IPoint, max: IPoint}, block_size: number, offset: number) {
 //   let step_size = block_size;

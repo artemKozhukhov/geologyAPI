@@ -18,4 +18,5 @@ export interface IWorkbookInclinometry{
   azimut: number,
   zenit: number,
   depth: number,
+  wellName: string,
 }

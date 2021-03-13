@@ -1,7 +1,7 @@
 import { Types, Document, Schema } from "mongoose";
 import PointSchema, { IPoint } from "./Point";
 import {IUser, IUserDocument} from "./User";
-import {IWell} from "./Well";
+import {IWell, IWellDocument} from "./Well";
 
 export interface IDeposit {
   name: string,

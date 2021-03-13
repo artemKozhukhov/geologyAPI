@@ -13,7 +13,7 @@ export interface IRockDocument extends IRockBaseDocument {}
 
 const RockSchema = new Schema(
   {
-    depositId: {
+    deposit: {
       type: Schema.Types.ObjectId,
       required: true,
     },

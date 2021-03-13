@@ -5,4 +5,4 @@ import DepositSchema, {IDepositDocument} from "../MongoSchemesNew/Deposit";
 //
 // export default model<IDepositDocument, IDepositModel>('Deposit', DepositSchema);
 
-export default model('Deposit', DepositSchema);
+export default model<IDepositDocument>('Deposit', DepositSchema);
