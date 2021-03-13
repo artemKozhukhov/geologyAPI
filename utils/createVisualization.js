@@ -1,12 +1,10 @@
-﻿// TODO разбить на части
-
-const xlsx = require('xlsx');
+﻿import xlsx from 'xlsx';
 const Constants = require('./Constants');
 const Deposit = require('../MongoModels/Deposit');
 const Well = require('../MongoModels/Well');
 const CodeIndex = require('../MongoModels/Code');
 const Inclinometry = require('../MongoModels/Inclinometry');
-const utilFns = require('./functions');
+const utilFns = require('./mathUtils');
 const Colors = require('./Colors');
 
 const getExcelSheetData = (workbook, sheetName) => {
@@ -35,7 +33,10 @@ const getLithologyCodes = (codesSet, deposit) => {
   });
   return oCodes;
 };
-
+/*
+0. create deposit
+1. create wells
+ */
 module.exports = async (fileName, filePath, offset) => {
   try {
     let workbook = xlsx.readFile(filePath);

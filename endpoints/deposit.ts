@@ -1,5 +1,5 @@
-const Deposit = require('../MongoModels/Deposit');
-const createVisualization = require('../utils/createVisualization');
+import Deposit from "../MongoModelsNew/Deposit";
+import excelParsing from '../excelParsing';
 
 export default (app) => {
   app.get('/deposit/:deposit_id/', async (req, res) => {
@@ -28,7 +28,7 @@ export default (app) => {
     let depositOffset = parseFloat(fileData.offset);
     let filePath = fileInfo.path;
     try {
-      await createVisualization(depositName, filePath, depositOffset);
+      await excelParsing(depositName, filePath, depositOffset);
       res.send({
         text: `месторождение ${depositName} успешно загружено`,
       });

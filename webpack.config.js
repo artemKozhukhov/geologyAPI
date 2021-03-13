@@ -1,14 +1,28 @@
 const path = require('path');
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   mode: 'development',
   target: 'node',
-  entry: path.resolve(__dirname, 'server.js'),
+  entry: path.resolve(__dirname, 'server.ts'),
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'server.js'
   },
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ]
+  },
+  resolve: {
+    extensions: ['.js', '.ts', '.tsx', '.json'],
+  },
+  externals: [nodeExternals()],
   plugins: [
     new CopyWebpackPlugin({
       patterns: [

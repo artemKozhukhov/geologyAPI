@@ -1,4 +1,4 @@
-const Well = require('../MongoModels/Well');
+import Well from "../MongoModelsNew/Well";
 
 export default (app) => {
   app.get('/wells/', async function (req, res) {

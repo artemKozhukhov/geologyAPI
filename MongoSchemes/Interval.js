@@ -2,7 +2,7 @@
 const Schema = mongoose.Schema;
 const FamousBlock = require('../MongoModels/FamousBlock');
 const PointSchema = require('../MongoSchemes/Point');
-const utilFns = require('../utils/functions');
+const utilFns = require('../utils/mathUtils');
 const IntervalSchema = new Schema(
   {
     code: {
