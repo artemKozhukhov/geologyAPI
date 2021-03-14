@@ -56,7 +56,6 @@ export default async (fileName: string, filePath: string, offset: number) => {
   aWells.forEach((well) => {
     let initPoint = well.head;
     well.intervals.forEach((interval: IIntervalDocument) => {
-      // TODO разобраться логично ли работает этот метод
       interval.setCoordinates(initPoint, offset);
       initPoint = interval.to;
     });
@@ -67,6 +66,4 @@ export default async (fileName: string, filePath: string, offset: number) => {
   await deposit.save();
   await Rock.insertMany(aRocks);
   await Well.insertMany(aWells);
-  // СОХРАНЕНИЕ
-
 };

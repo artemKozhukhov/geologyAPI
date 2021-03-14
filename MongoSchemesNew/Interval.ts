@@ -33,7 +33,7 @@ const IntervalSchema = new Schema(
   {
     rock: {
       type: Schema.Types.ObjectId,
-      ref: 'Code',
+      ref: 'Rock',
       required: true,
     },
     from: PointSchema,
