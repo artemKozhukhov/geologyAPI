@@ -2,6 +2,7 @@ import {Types, Document, Schema} from "mongoose";
 import PointSchema, {IPoint} from "./Point";
 import { getRad, roundFloat } from "../utils/mathUtils";
 import {IRock, IRockDocument} from "./Rock";
+import WellSchema from "./Well";
 
 export interface IInterval {
   rock: Types.ObjectId | IRock,
@@ -40,6 +41,11 @@ const IntervalSchema = new Schema(
   },
   { versionKey: false },
 );
+
+IntervalSchema.virtual("zenit");
+IntervalSchema.virtual("azimut");
+IntervalSchema.virtual("depthFrom");
+IntervalSchema.virtual("depthTo");
 
 IntervalSchema.methods.setCoordinates = function (this: IIntervalBaseDocument, startPoint: IPoint, offset: number) {
   this.from = { ...startPoint };

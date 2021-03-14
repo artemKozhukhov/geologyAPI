@@ -60,10 +60,9 @@ export default async (fileName: string, filePath: string, offset: number) => {
       interval.setCoordinates(initPoint, offset);
       initPoint = interval.to;
     });
-    //well.setFoot();
+    well.setFoot();
   });
-  //deposit.setBorders(aWells);
-  console.log(aWells[0].intervals[0]);
+  deposit.setBorders(aWells);
 
   await deposit.save();
   await Rock.insertMany(aRocks);
