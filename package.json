@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --watch",
-    "start": "nodemon dist/server.js"
+    "build": "webpack",
+    "start": "node dist/server.js",
+    "dev": "webpack && nodemon dist/server.js"
   },
   "author": "",
   "license": "ISC",
